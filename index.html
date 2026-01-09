@@ -111,5 +111,28 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
   </script>
+  <script>
+    (function () {
+      const header = document.querySelector(".header");
+      if (!header) return;
+  
+      // 모바일에서만 동작
+      const mq = window.matchMedia("(max-width: 720px)");
+      if (!mq.matches) return;
+  
+      let lastY = window.scrollY;
+  
+      window.addEventListener("scroll", () => {
+        const y = window.scrollY;
+  
+        // 아래로 스크롤 + 어느 정도 내려갔을 때 숨김
+        if (y > lastY && y > 80) header.classList.add("is-hidden");
+        // 위로 스크롤하면 보이기
+        else header.classList.remove("is-hidden");
+  
+        lastY = y;
+      }, { passive: true });
+    })();
+  </script>
 </body>
 </html>

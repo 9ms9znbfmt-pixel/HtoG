@@ -174,4 +174,24 @@
       font-size: 13px;
     }
   }
-  
+  /* 모바일에서만: 헤더를 고정 + 스크롤 시 숨김 */
+@media (max-width: 720px){
+  body{
+    padding-top: 64px; /* 헤더 높이만큼 컨텐츠 밀기 (필요하면 56~72 조절) */
+  }
+
+  .header{
+    position: fixed;     /* sticky보다 확실하게 숨김 동작 */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    transform: translateY(0);
+    transition: transform 0.28s ease;
+    will-change: transform;
+  }
+
+  .header.is-hidden{
+    transform: translateY(-110%);  /* 완전 위로 보내기 */
+  }
+}
