@@ -1,11 +1,10 @@
 :root{
-  --max: 1800px; /* 1100 -> 1800 */
+  --max: 1800px;
   --pad: 24px;
   --text: #111;
   --muted: #666;
   --line: #e9e9e9;
 }
-  
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
   body{
@@ -13,10 +12,8 @@
     color: var(--text);
     background:#fff;
   }
-  
   a{ color:inherit; text-decoration:none; }
   a:hover{ text-decoration: underline; text-underline-offset: 4px; }
-  
   .header{
     position: sticky;
     top: 0;
@@ -35,15 +32,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 24px; /* 450px 제거 */
-  }/* 사진 그리드 전용: 화면 전체 폭 */
+    gap: 24px;
+  }
   .container-full{
     width: 100vw;
-    margin-left: calc(50% - 50vw); /* 중앙 정렬 레이아웃 탈출 */
+    margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     padding: 32px clamp(16px, 3vw, 80px);
   }
-  
   .brand{
     font-size: xx-large;
     font-weight: 600;
@@ -59,26 +55,22 @@
     margin: 0 auto;
     padding: 40px clamp(18px, 4vw, 56px) 70px;
   }
-  
   .hero{
     padding: 20px 0 30px;
     border-bottom: 1px solid var(--line);
     margin-bottom: 28px;
   }
-  
   .kicker{
     margin:0 0 12px;
     font-size: 13px;
     color: var(--muted);
   }
-  
   .title{
     margin:0;
     font-size: clamp(28px, 4vw, 44px);
     line-height: 1.1;
     letter-spacing: -0.5px;
   }
-  
   .sub{
     margin: 14px 0 0;
     max-width: 60ch;
@@ -90,36 +82,29 @@
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 70px;
   }
-  
   .card img{
     width:100%;
     height: auto;
     display:block;
     border: 1px solid var(--line);
   }
-  
   .meta{
     margin-top: 40px;
     font-size: 30px;
-
   }
-  
   .footer{
     border-top: 1px solid var(--line);
     padding: 24px var(--pad);
     color: var(--muted);
     font-size: 13px;
   }
-  
   @media (max-width: 760px){
     .grid{ grid-template-columns: 1fr; }
     .nav a{ margin-left: 12px; }
   }
-
   .nav-desktop a{
     margin-left: 16px;
   }
-  
   .nav-toggle{
     display: none;
     border: 1px solid var(--line);
@@ -128,23 +113,19 @@
     border-radius: 8px;
     cursor: pointer;
   }
-  
   .nav-toggle:hover{
     background: rgba(0,0,0,0.03);
   }
-  
   .nav-toggle-icon{
     font-size: 16px;
     line-height: 1;
   }
-  
   @media (max-width: 900px){
     .nav-desktop a{
       margin-left: 12px;
       font-size: 13px;
     }
   }
-  
   @media (max-width: 720px){
     .header{
       position: sticky;
@@ -175,14 +156,12 @@
       font-size: 13px;
     }
   }
-  /* 모바일에서만: 헤더를 고정 + 스크롤 시 숨김 */
 @media (max-width: 720px){
   body{
-    padding-top: 64px; /* 헤더 높이만큼 컨텐츠 밀기 (필요하면 56~72 조절) */
+    padding-top: 64px;
   }
-
   .header{
-    position: fixed;     /* sticky보다 확실하게 숨김 동작 */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -191,8 +170,66 @@
     transition: transform 0.4s ease;
     will-change: transform;
   }
-
   .header.is-hidden{
-    transform: translateY(-110%);  /* 완전 위로 보내기 */
+    transform: translateY(-110%);
+  }
+}
+.page-selected .grid{
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.page-selected .item{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+  align-items: start;
+}
+.page-selected .thumb{
+  width: fit-content;
+}
+.page-selected .thumb img{
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 72vh;
+  object-fit: contain;
+}
+.page-selected .meta{
+  margin-top: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.page-selected .meta-title{
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.page-selected .meta-caption{
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.page-selected .meta-list{
+  margin: 0;
+}
+.page-selected .meta-list > div{
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px;
+  padding: 6px 0;
+}
+.page-selected .meta-list dt{
+  font-weight: 500;
+  color: var(--text);
+}
+.page-selected .meta-list dd{
+  margin: 0;
+}
+@media (max-width: 760px){
+  .page-selected .item{
+    grid-template-columns: 1fr;
+  }
+  .page-selected .thumb img{
+    max-height: none;
   }
 }
