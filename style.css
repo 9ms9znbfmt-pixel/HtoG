@@ -89,7 +89,7 @@
     border: 1px solid var(--line);
   }
   .meta{
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: 30px;
   }
   .footer{
@@ -266,4 +266,9 @@
   .nav-toggle-icon{
     font-size: 16px;
     line-height: 1;
+  }
+  .intro-line{
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
   }
