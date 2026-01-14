@@ -1,75 +1,56 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
-  <meta property="og:title" content="Donghun You | Photography">
-  <meta property="og:description" content="A personal photography archive by Donghun You.">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Donghun You — Photography</title>
+  <title>HtoG — Photography by Donghun You</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header class="header">
-    <div class="header-inner">
-      <a class="brand" href="index.html">H to G</a>
-      <nav class="nav">
-        <a href="Projects.html">Projects</a>
-        <a href="Tools.html">Tools</a>
-        <a href="About.html">About</a>
-        <a href="Contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-  <main class="container">
-    <section class="hero">
-      <p class="kicker">Photography</p>
-      <h1 class="title">A personal photography archive</h1>
-      <p class="sub">
-        Light, Shadow and Distance
-      </p>
-      </section>
-    </section>
-    <section class="container-full">
-      <div class="grid">
-        <a class="card" href="Selected01.html">
-          <img src="media/index/1.jpg" alt="Project thumbnail 1" loading="lazy">
-          <div class="meta">1/25s</div>
-        </a>
-        <a class="card" href="Selected02.html">
-          <img src="media/index/2.jpg" alt="Project thumbnail 1" loading="lazy">
-          <div class="meta">Real Street</div>
-        </a>
-        <a class="card" href="Selected03.html">
-          <img src="media/index/3.jpg" lt="Project thumbnail 1" loading="lazy">
-          <div class="meta">Cold Keys, Warm Sand</div>
-        </a>
-        <a class="card" href="Selected04.html">
-          <img src="media/index/4.jpg" alt="Project thumbnail 1" loading="lazy">
-          <div class="meta">Afterimage</div>
-        </a>
+
+<body class="page-home-card">
+  <main class="page">
+    <section class="frame" aria-label="Home">
+      <div class="frame-inner">
+
+        <header class="top">
+          <div class="top-brand">HtoG</div>
+        
+          <nav class="top-links" aria-label="Primary">
+            <a href="projects.html">Projects</a>
+            <a href="tools.html">Tools</a>
+            <a href="about.html">About</a>
+          </nav>
+        </header>
+
+        <div class="rule"></div>
+
+        <section class="hero">
+          <h1 class="hero-title">Light, Shadow and Distance</h1>
+        </section>
+
+        <section class="thumbs" aria-label="Selected photographs">
+          <a class="thumb" href="Selected01.html">
+            <img src="media/selected/1.jpg" alt="Selected photograph 1" loading="lazy">
+          </a>
+          <a class="thumb" href="selected02.html">
+            <img src="media/selected/2.jpg" alt="Selected photograph 2" loading="lazy">
+          </a>
+          <a class="thumb" href="selected03.html">
+            <img src="media/selected/3.jpg" alt="Selected photograph 3" loading="lazy">
+          </a>
+          <a class="thumb" href="selected04.html">
+            <img src="media/selected/4.jpg" alt="Selected photograph 3" loading="lazy">
+          </a>
+        </section>
+
+        <div class="rule bottom-rule"></div>
+
+        <footer class="bottom">
+          <div class="bottom-copy">© 2026. HtoG. All rights reserved.</div>
+        </footer>
+
       </div>
     </section>
   </main>
-  <footer class="footer">
-    <p>© <span id="y"></span>. HtoG. All rights reserved.</p>
-  </footer>
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
-  <script>
-    (function () {
-      const header = document.querySelector(".header");
-      if (!header) return;
-      const mq = window.matchMedia("(max-width: 720px)");
-      if (!mq.matches) return;
-      let lastY = window.scrollY;
-      window.addEventListener("scroll", () => {
-        const y = window.scrollY;
-        if (y > lastY && y > 80) header.classList.add("is-hidden");
-        else header.classList.remove("is-hidden");
-        lastY = y;
-      }, { passive: true });
-    })();
-  </script>
 </body>
 </html>
