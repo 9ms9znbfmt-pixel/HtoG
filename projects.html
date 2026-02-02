@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tools — HtoG</title>
+  <title>Projects — HtoG</title>
+  <meta name="description" content="Ongoing photography projects." />
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="page-tools-card">
+<body class="page-projects-card">
   <main class="page">
-    <section class="frame" aria-label="Tools">
+    <section class="frame" aria-label="Projects">
       <div class="frame-inner">
 
         <header class="top">
@@ -18,7 +19,7 @@
           </div>
 
           <nav class="top-links" aria-label="Primary">
-            <a href="projects.html">Projects</a>
+            <a href="projects.html" aria-current="page">Projects</a>
             <a href="notes.html">Notes</a>
             <a href="about.html">About</a>
           </nav>
@@ -26,21 +27,40 @@
 
         <div class="rule"></div>
 
-        <section class="hero">
-          <h1 class="hero-title">Projects</h1>
-          <p class="page-note">
+        <section class="projects-hero">
+          <h1 class="page-title">Projects</h1>
+          <p class="projects-sub">
             On Enjoying Photography
           </p>
         </section>
+        <section class="projects-center" aria-label="Ongoing projects">
+          <div class="projects-grid">
 
-        <div class="rule bottom-rule"></div>
+            <a class="project-card" href="project1.html">
+              <div class="project-thumb">
+                <img src="media/selected/5.JPG" alt="Project 01 — Today’s Light" loading="lazy">
+              </div>
+              <div class="project-info">
+                <div class="project-name">오늘의 빛</div>
+                <div class="project-status">Today's Light</div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <div class="rule"></div>
 
         <footer class="bottom">
-          <div class="bottom-copy">© 2026. HtoG. All rights reserved.</div>
+          <div class="bottom-copy">© <span id="y"></span>. HtoG. All rights reserved.</div>
         </footer>
 
       </div>
     </section>
   </main>
+
+  <script>
+    const y = document.getElementById("y");
+    if (y) y.textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

@@ -1,60 +1,47 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Projects — Donghun You</title>
+  <title>Projects — HtoG</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header class="header">
-    <div class="header-inner">
-      <a class="brand" href="index.html">H to G</a>
-      <nav class="nav">
-        <a href="Projects.html">Projects</a>
-        <a href="Tools.html">Tools</a>
-        <a href="About.html">About</a>
-        <a href="Contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
-  <main class="container">
-    <section class="hero">
-      <p class="kicker">Projects</p>
-      <h1 class="title">Selected series</h1>
-      <p class="sub">Click a project to view the full gallery.</p>
-    </section>
-    <section class="grid">
-      <a class="card" href="project-01.html">
-        <img src="assets/images/01.jpg" alt="Project 01" loading="lazy">
-        <div class="meta">Project 01 — Title</div>
-      </a>
-      <a class="card" href="project-02.html">
-        <img src="assets/images/02.jpg" alt="Project 02" loading="lazy">
-        <div class="meta">Project 02 — Title</div>
-      </a>
+
+<body class="page-tools-card">
+  <main class="page">
+    <section class="frame" aria-label="Tools">
+      <div class="frame-inner">
+
+        <header class="top">
+          <div class="top-brand">
+            <a href="index.html">HtoG</a></div>
+
+          <nav class="top-links" aria-label="Primary">
+            <a href="projects.html">Projects</a>
+            <a href="notes.html">Notes</a>
+            <a href="about.html">About</a>
+          </nav>
+        </header>
+        <div class="rule"></div>
+        
+        <section class="hero">
+          <h1 class="page-title">Today's Light</h1>
+        </section>
+
+        <section class="thumbs" aria-label="Selected photographs">
+          <a class="thumb" href="todayLight01.html">
+            <img src="media/selected/5.JPG" alt="Today's Light" loading="lazy">
+          </a>
+        </section>
+
+        <div class="rule bottom-rule"></div>
+
+        <footer class="bottom">
+          <div class="bottom-copy">© 2026. HtoG. All rights reserved.</div>
+        </footer>
+
+      </div>
     </section>
   </main>
-  <footer class="footer">
-    <p>© <span id="y"></span>. HtoG. All rights reserved.</p>
-  </footer>
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
-  <script>
-    (function () {
-      const header = document.querySelector(".header");
-      if (!header) return;
-      const mq = window.matchMedia("(max-width: 720px)");
-      if (!mq.matches) return;
-      let lastY = window.scrollY;
-      window.addEventListener("scroll", () => {
-        const y = window.scrollY;
-        if (y > lastY && y > 80) header.classList.add("is-hidden");
-        else header.classList.remove("is-hidden");
-        lastY = y;
-      }, { passive: true });
-    })();
-  </script>
 </body>
 </html>
