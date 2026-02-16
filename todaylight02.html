@@ -105,16 +105,15 @@
     window.scrollTo(0, scrollY);
   }
 
-  function apply(){
-    lbImg.style.transform =
-      `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${scale})`;
-  }
+function apply(){
+  lbImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+}
 
   function openLB(src, alt){
     lb.classList.add('is-open');
     lb.setAttribute('aria-hidden','false');
 
-    scale = 0.5; tx = 0; ty = 0;
+    scale = 1; tx = 0; ty = 0;
     lbImg.src = src;
     lbImg.alt = alt || '';
     apply();
