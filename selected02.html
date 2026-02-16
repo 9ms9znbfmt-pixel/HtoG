@@ -29,7 +29,7 @@
         <section class="selected">
           <!-- LEFT: image -->
           <div class="selected-media">
-            <a class="zoom" href="media/selected/2.JPG" target="_blank" rel="noopener">
+            <a class="zoom" href="media/selected/2.JPG" target="data-full" rel="noopener">
               <img src="media/selected/2.JPG" alt="Selected photograph — Real Street" loading="eager">
             </a>
           </div>
@@ -76,6 +76,17 @@
 
       </div>
     </section>
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" type="button" aria-label="Close">×</button>
+
+  <div class="lightbox-stage" id="lightboxStage">
+    <img class="lightbox-img" id="lightboxImg" alt="">
+  </div>
+
+  <div class="lightbox-help">
+    Scroll / Pinch to zoom · Drag to pan · Double tap to reset
+  </div>
+</div>
   </main>
 
   <script>
