@@ -71,138 +71,150 @@
 
       </div>
     </section>
-<!-- Lightbox (no frame, no X) -->
+  </main>
 <div class="lb" id="lb" aria-hidden="true">
   <img class="lb-img" id="lbImg" alt="">
 </div>
-  </main>
-
 <script>
   (function(){
-    const lb = document.getElementById('lb');
-    const lbImg = document.getElementById('lbImg');
-    if(!lb || !lbImg) return;
+  const lb = document.getElementById('lb');
+  const lbImg = document.getElementById('lbImg');
+  if(!lb || !lbImg) return;
 
-    let scale = 1;
-    let tx = 0, ty = 0;
-    let dragging = false;
-    let startX = 0, startY = 0;
+  let scale = 1;
+  let tx = 0, ty = 0;
+  let dragging = false;
+  let startX = 0, startY = 0;
 
-    function apply(){
-      lbImg.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${scale})`;
+  // ✅ 스크롤 잠금(레이아웃 밀림 방지)
+  let scrollY = 0;
+  function lockScroll(){
+    scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+    // 데스크탑에서 스크롤바 사라지며 밀리는 현상 방지
+    const sbw = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = sbw > 0 ? sbw + 'px' : '';
+
+    document.body.classList.add('lb-open');
+    document.body.style.top = `-${scrollY}px`;
+  }
+  function unlockScroll(){
+    document.body.classList.remove('lb-open');
+    document.body.style.top = '';
+    document.body.style.paddingRight = '';
+    window.scrollTo(0, scrollY);
+  }
+
+  function apply(){
+    lbImg.style.transform =
+      `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${scale})`;
+  }
+
+  function openLB(src, alt){
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden','false');
+
+    scale = 1; tx = 0; ty = 0;
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    apply();
+
+    lockScroll();
+  }
+
+  function closeLB(){
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden','true');
+    lbImg.removeAttribute('src');
+
+    unlockScroll();
+  }
+
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a.zoom, a.thumb');
+    if(!a) return;
+
+    const img = a.querySelector('img');
+    const href = a.getAttribute('href') || '';
+
+    if(/\.(jpe?g|png|webp)$/i.test(href)){
+      e.preventDefault();
+      openLB(href, img ? img.alt : '');
     }
+  });
 
-    function openLB(src, alt){
-      lb.classList.add('is-open');
-      lb.setAttribute('aria-hidden','false');
+  lb.addEventListener('click', (e) => {
+    if(e.target === lb) closeLB();
+  });
 
-      // 초기 상태: 중앙 + 기본 스케일
-      scale = 1; tx = 0; ty = 0;
-      lbImg.style.maxWidth = '92vw';
-      lbImg.style.maxHeight = '86vh';
-      lbImg.src = src;
-      lbImg.alt = alt || '';
-      apply();
+  window.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && lb.classList.contains('is-open')) closeLB();
+  });
 
-      document.documentElement.style.overflow = 'hidden';
-    }
+  // 드래그 이동
+  lbImg.addEventListener('mousedown', (e) => {
+    dragging = true;
+    startX = e.clientX - tx;
+    startY = e.clientY - ty;
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', (e) => {
+    if(!dragging) return;
+    tx = e.clientX - startX;
+    ty = e.clientY - startY;
+    apply();
+  });
+  window.addEventListener('mouseup', () => dragging = false);
 
-    function closeLB(){
-      lb.classList.remove('is-open');
-      lb.setAttribute('aria-hidden','true');
-      lbImg.removeAttribute('src');
-      document.documentElement.style.overflow = '';
-    }
+  // 휠 줌
+  lb.addEventListener('wheel', (e) => {
+    if(!lb.classList.contains('is-open')) return;
+    e.preventDefault();
+    const next = scale * (e.deltaY > 0 ? 0.9 : 1.1);
+    scale = Math.min(8, Math.max(0.5, next));
+    apply();
+  }, { passive: false });
 
-    // 썸네일/이미지 클릭 → 라이트박스 열기 (새 창 막기)
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest('a.zoom, a.thumb');
-      if(!a) return;
+  // 모바일 핀치/드래그
+  let pinchStartDist = null;
 
-      const img = a.querySelector('img');
-      const href = a.getAttribute('href');
-
-      // 이미지 링크만 라이트박스로
-      if(href && (href.endsWith('.jpg') || href.endsWith('.JPG') || href.endsWith('.png') || href.endsWith('.webp'))){
-        e.preventDefault();
-        openLB(href, img ? img.alt : '');
-      }
-    });
-
-    // 배경 클릭하면 닫기 (이미지 클릭은 닫지 않음)
-    lb.addEventListener('click', (e) => {
-      if(e.target === lb) closeLB();
-    });
-
-    // ESC로 닫기
-    window.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape' && lb.classList.contains('is-open')) closeLB();
-    });
-
-    // 드래그로 이동
-    lbImg.addEventListener('mousedown', (e) => {
+  lb.addEventListener('touchstart', (e) => {
+    if(e.touches.length === 2){
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      pinchStartDist = Math.hypot(dx, dy);
+    } else if(e.touches.length === 1){
       dragging = true;
-      startX = e.clientX - tx;
-      startY = e.clientY - ty;
-      e.preventDefault();
-    });
-    window.addEventListener('mousemove', (e) => {
-      if(!dragging) return;
-      tx = e.clientX - startX;
-      ty = e.clientY - startY;
+      startX = e.touches[0].clientX - tx;
+      startY = e.touches[0].clientY - ty;
+    }
+  }, { passive: true });
+
+  lb.addEventListener('touchmove', (e) => {
+    if(!lb.classList.contains('is-open')) return;
+
+    if(e.touches.length === 2 && pinchStartDist){
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.hypot(dx, dy);
+      const ratio = dist / pinchStartDist;
+
+      scale = Math.min(8, Math.max(0.5, scale * ratio));
+      pinchStartDist = dist;
       apply();
-    });
-    window.addEventListener('mouseup', () => dragging = false);
-
-    // 휠로 확대/축소 (커서 기준까지는 아니고, 중앙 기준으로 자연스럽게)
-    lb.addEventListener('wheel', (e) => {
-      if(!lb.classList.contains('is-open')) return;
-      e.preventDefault();
-      const delta = Math.sign(e.deltaY);
-      const next = scale * (delta > 0 ? 0.9 : 1.1);
-      scale = Math.min(8, Math.max(0.5, next));
+    } else if(e.touches.length === 1 && dragging){
+      tx = e.touches[0].clientX - startX;
+      ty = e.touches[0].clientY - startY;
       apply();
-    }, { passive: false });
+    }
+  }, { passive: true });
 
-    // 모바일: 핀치 줌 (간단 버전)
-    let pinchStartDist = null;
-    lb.addEventListener('touchstart', (e) => {
-      if(e.touches.length === 2){
-        const dx = e.touches[0].clientX - e.touches[1].clientX;
-        const dy = e.touches[0].clientY - e.touches[1].clientY;
-        pinchStartDist = Math.hypot(dx, dy);
-      } else if(e.touches.length === 1){
-        dragging = true;
-        startX = e.touches[0].clientX - tx;
-        startY = e.touches[0].clientY - ty;
-      }
-    }, { passive: true });
+  lb.addEventListener('touchend', () => {
+    dragging = false;
+    pinchStartDist = null;
+  });
 
-    lb.addEventListener('touchmove', (e) => {
-      if(!lb.classList.contains('is-open')) return;
-
-      if(e.touches.length === 2 && pinchStartDist){
-        const dx = e.touches[0].clientX - e.touches[1].clientX;
-        const dy = e.touches[0].clientY - e.touches[1].clientY;
-        const dist = Math.hypot(dx, dy);
-        const ratio = dist / pinchStartDist;
-        const next = scale * ratio;
-        scale = Math.min(8, Math.max(0.5, next));
-        pinchStartDist = dist;
-        apply();
-      } else if(e.touches.length === 1 && dragging){
-        tx = e.touches[0].clientX - startX;
-        ty = e.touches[0].clientY - startY;
-        apply();
-      }
-    }, { passive: true });
-
-    lb.addEventListener('touchend', () => {
-      dragging = false;
-      pinchStartDist = null;
-    });
-
-  })();
+})();
 </script>
 </body>
 </html>
